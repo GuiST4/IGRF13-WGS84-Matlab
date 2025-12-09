@@ -1,4 +1,4 @@
-# IGRF-13 Geomagnetic Field Model (WGS84)
+# IGRF-14 Geomagnetic Field Model (WGS84)
 
 A high-fidelity MATLAB implementation of the International Geomagnetic Reference Field (IGRF-13) model for Low Earth Orbit (LEO) applications. 
 
