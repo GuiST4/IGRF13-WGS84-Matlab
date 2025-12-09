@@ -57,7 +57,13 @@ function [B, F] = magnetic_field(height_m, latitude_deg, longitude_deg, year, C_
 
     Br = sumR;
     Bt = -sumT;
-    Bl = -sumL/sin(theta);
+    
+    % Singularity check for pole
+    if abs(sin(theta)) < 1e-10
+        Bl = 0; % Force East component to 0 at the exact pole
+    else
+        Bl = -sumL/sin(theta);
+    end
     
     % Geocentric -> NED
     BX = -Bt*cos(epsilon) - Br*sin(epsilon);
