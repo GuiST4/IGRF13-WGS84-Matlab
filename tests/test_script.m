@@ -4,7 +4,7 @@ clearvars
 clc
 format long
 
-% Load the WMM.cof coefficients of 2025 and secular variations
+% Load the IGRF.cof coefficients of 2025 and secular variations
 addpath('../data/')
 addpath('../src/')
 load Gauss_coefficients_2020.mat
