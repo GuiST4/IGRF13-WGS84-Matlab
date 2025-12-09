@@ -29,12 +29,17 @@ N      = 13;        % Expansion order
 
 disp(['Total Intensity: ', num2str(F), ' nT']);
 
+```
 ## Verification Results
 
 ### 1. Vector Comparison (Custom vs MATLAB Aerospace Toolbox)
 The following plot compares the North, East, and Down magnetic vector components over 2 orbits.
-![Vector Comparison](plots/simulink_vector_comparison.png)
+<p align="center">
+  <img src="plots/simulink_vector_comparison.png" width="80%">
+</p>
 
-### 2. Error Analysis
-Analysis of the absolute error magnitude between the custom model and the reference.
-![Error Analysis](plots/simulink_error_analysis.png)
+### 2. RMSE Convergence
+A Monte Carlo analysis showing the Root Mean Square Error (RMSE) of the custom model converging to the MATLAB reference as the spherical harmonic degree (N) increases.
+<p align="center">
+  <img src="plots/rmse_convergence.png" width="80%">
+</p>
