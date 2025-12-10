@@ -1,17 +1,21 @@
-# IGRF-14 Geomagnetic Field Model (WGS84)
+# IGRF-14 Geomagnetic Field Model (WGS84) - MATLAB & C
 
-A high-fidelity MATLAB implementation of the International Geomagnetic Reference Field (IGRF-14) model for Low Earth Orbit (LEO) applications. 
+A high-fidelity implementation of the International Geomagnetic Reference Field (IGRF-14) model for Low Earth Orbit (LEO) applications. 
 
-This core module is designed as a reference verification tool for CubeSat Attitude Determination and Control Systems (ADCS).
+This core module is designed as a reference verification tool (**MATLAB**) and a flight-ready driver (**Embedded C**) for CubeSat Attitude Determination and Control Systems (ADCS).
 
 ## Features
 
 - **High Fidelity:** Implements IGRF-14 generation up to degree/order 13.
-- **Geodetic Accuracy:** Includes a rigorous WGS84 Geodetic-to-Geocentric coordinate transformation (accounting for Earth's oblateness), ensuring high accuracy at variable altitudes.
-- **Schmidt Quasi-Normalization:** Correctly handles spherical harmonic normalization/un-normalization.
+- **Geodetic Accuracy:** Includes a rigorous WGS84 Geodetic-to-Geocentric coordinate transformation (accounting for Earth's oblateness).
+- **Embedded C Driver:** Static memory allocation (no `malloc`), single-precision arithmetic (`float`), and zero external dependencies.
 - **Secular Variation:** Linear time interpolation for precise field estimation between epoch years.
 
 ## Usage
+
+### 1. MATLAB (Analysis & Verification)
+
+The MATLAB implementation is located in [src/](src/) and can be run as follows:
 
 ```matlab
 % Load coefficients
@@ -28,8 +32,30 @@ N      = 13;        % Expansion order
 [B_ned, F] = magnetic_field(height, lat, lon, year, C_nm, N);
 
 disp(['Total Intensity: ', num2str(F), ' nT']);
-
 ```
+
+### Embedded C (Flight Software)
+
+The C library is located in [src_c/](src_c/). It uses auto-generated static arrays for coefficients.
+```c
+#include "src_c/igrf.h"
+
+// Define Inputs
+igrf_input_t in = {
+    .lat_deg = 38.7223f,
+    .lon_deg = -9.1393f,
+    .alt_m   = 400000.0f,
+    .year    = 2025.5f
+};
+
+igrf_output_t out;
+
+// Run Model
+igrf_compute(&in, &out);
+
+// Result is in out.B_north, out.B_east, out.B_down
+```
+
 ## Verification Results
 
 ### 1. Vector Comparison (Custom vs MATLAB Aerospace Toolbox)
